@@ -1,0 +1,2 @@
+subject,task,n_epochs_after_rejection,rejection_rate,reason
+sub-007,MMN,144,0.8538,rejection rate 85.4% > 80%

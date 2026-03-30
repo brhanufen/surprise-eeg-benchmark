@@ -1,0 +1,314 @@
+{
+  "sub-001": {
+    "n_trials": 187,
+    "n_deviants": 39,
+    "static_shannon_std": 0.7816964997873243,
+    "adaptive_shannon_w20_std": 0.7854146785675729,
+    "bayesian_surprise_std": 0.031376530672851746,
+    "changepoint_surprise_std": 0.7487716091377309
+  },
+  "sub-002": {
+    "n_trials": 198,
+    "n_deviants": 40,
+    "static_shannon_std": 0.7957281302282571,
+    "adaptive_shannon_w20_std": 0.7493966067438185,
+    "bayesian_surprise_std": 0.032911180815857484,
+    "changepoint_surprise_std": 0.7631072160312574
+  },
+  "sub-003": {
+    "n_trials": 27,
+    "n_deviants": 6,
+    "static_shannon_std": 0.7513892105154528,
+    "adaptive_shannon_w20_std": 0.8519307412848703,
+    "bayesian_surprise_std": 0.0821007076083098,
+    "changepoint_surprise_std": 0.849910683152097
+  },
+  "sub-004": {
+    "n_trials": 64,
+    "n_deviants": 23,
+    "static_shannon_std": 0.40016282551345905,
+    "adaptive_shannon_w20_std": 0.3698363716313726,
+    "bayesian_surprise_std": 0.04493927850897191,
+    "changepoint_surprise_std": 0.3623251480550601
+  },
+  "sub-005": {
+    "n_trials": 31,
+    "n_deviants": 8,
+    "static_shannon_std": 0.6666645119815783,
+    "adaptive_shannon_w20_std": 0.6259558220907631,
+    "bayesian_surprise_std": 0.06002231411458982,
+    "changepoint_surprise_std": 0.5783945892784648
+  },
+  "sub-006": {
+    "n_trials": 164,
+    "n_deviants": 32,
+    "static_shannon_std": 0.8101822604819507,
+    "adaptive_shannon_w20_std": 0.7664643494588824,
+    "bayesian_surprise_std": 0.038481283033378444,
+    "changepoint_surprise_std": 0.746509722298176
+  },
+  "sub-007": {
+    "n_trials": 198,
+    "n_deviants": 40,
+    "static_shannon_std": 0.7957281302282571,
+    "adaptive_shannon_w20_std": 0.7855613394427505,
+    "bayesian_surprise_std": 0.0329658733379964,
+    "changepoint_surprise_std": 0.7536249118806777
+  },
+  "sub-008": {
+    "n_trials": 176,
+    "n_deviants": 35,
+    "static_shannon_std": 0.8023889563370448,
+    "adaptive_shannon_w20_std": 0.7864392657763728,
+    "bayesian_surprise_std": 0.03242932479893718,
+    "changepoint_surprise_std": 0.7561830738048745
+  },
+  "sub-009": {
+    "n_trials": 41,
+    "n_deviants": 12,
+    "static_shannon_std": 0.5792159043376129,
+    "adaptive_shannon_w20_std": 0.5541228394896411,
+    "bayesian_surprise_std": 0.05759813731969478,
+    "changepoint_surprise_std": 0.5698074359842076
+  },
+  "sub-010": {
+    "n_trials": 175,
+    "n_deviants": 36,
+    "static_shannon_std": 0.78783636310162,
+    "adaptive_shannon_w20_std": 0.8096560900467332,
+    "bayesian_surprise_std": 0.03706339661660349,
+    "changepoint_surprise_std": 0.7900725335262648
+  },
+  "sub-011": {
+    "n_trials": 184,
+    "n_deviants": 35,
+    "static_shannon_std": 0.8202227802251775,
+    "adaptive_shannon_w20_std": 0.7733132756927664,
+    "bayesian_surprise_std": 0.03705584900719221,
+    "changepoint_surprise_std": 0.816109267251548
+  },
+  "sub-013": {
+    "n_trials": 199,
+    "n_deviants": 39,
+    "static_shannon_std": 0.8084052979163031,
+    "adaptive_shannon_w20_std": 0.7879071566176126,
+    "bayesian_surprise_std": 0.03489979125993474,
+    "changepoint_surprise_std": 0.7725937950957875
+  },
+  "sub-014": {
+    "n_trials": 197,
+    "n_deviants": 40,
+    "static_shannon_std": 0.7935476740721207,
+    "adaptive_shannon_w20_std": 0.7692656098850197,
+    "bayesian_surprise_std": 0.030759538587164036,
+    "changepoint_surprise_std": 0.7515635751238902
+  },
+  "sub-015": {
+    "n_trials": 198,
+    "n_deviants": 38,
+    "static_shannon_std": 0.8167619045796649,
+    "adaptive_shannon_w20_std": 0.7876431426548259,
+    "bayesian_surprise_std": 0.03018009642153905,
+    "changepoint_surprise_std": 0.7627406464420353
+  },
+  "sub-016": {
+    "n_trials": 199,
+    "n_deviants": 40,
+    "static_shannon_std": 0.7978787435176768,
+    "adaptive_shannon_w20_std": 0.8024510565133527,
+    "bayesian_surprise_std": 0.031246577730429225,
+    "changepoint_surprise_std": 0.7714664576864328
+  },
+  "sub-017": {
+    "n_trials": 200,
+    "n_deviants": 40,
+    "static_shannon_std": 0.8,
+    "adaptive_shannon_w20_std": 0.7840650576244494,
+    "bayesian_surprise_std": 0.035185725558714756,
+    "changepoint_surprise_std": 0.7720256254064173
+  },
+  "sub-018": {
+    "n_trials": 194,
+    "n_deviants": 39,
+    "static_shannon_std": 0.7978239683606592,
+    "adaptive_shannon_w20_std": 0.7789221016127008,
+    "bayesian_surprise_std": 0.03370168155965731,
+    "changepoint_surprise_std": 0.7601594752952148
+  },
+  "sub-019": {
+    "n_trials": 200,
+    "n_deviants": 40,
+    "static_shannon_std": 0.8,
+    "adaptive_shannon_w20_std": 0.787506289217128,
+    "bayesian_surprise_std": 0.0309765813619579,
+    "changepoint_surprise_std": 0.7605550004084556
+  },
+  "sub-020": {
+    "n_trials": 198,
+    "n_deviants": 40,
+    "static_shannon_std": 0.7957281302282571,
+    "adaptive_shannon_w20_std": 0.8303546839714732,
+    "bayesian_surprise_std": 0.03613626565875893,
+    "changepoint_surprise_std": 0.7826410731374948
+  },
+  "sub-021": {
+    "n_trials": 200,
+    "n_deviants": 40,
+    "static_shannon_std": 0.8,
+    "adaptive_shannon_w20_std": 0.8179694300445152,
+    "bayesian_surprise_std": 0.03545559031894913,
+    "changepoint_surprise_std": 0.8001936143701224
+  },
+  "sub-022": {
+    "n_trials": 197,
+    "n_deviants": 39,
+    "static_shannon_std": 0.8042614240612592,
+    "adaptive_shannon_w20_std": 0.7723881374769683,
+    "bayesian_surprise_std": 0.031470576584486785,
+    "changepoint_surprise_std": 0.7611140180227137
+  },
+  "sub-023": {
+    "n_trials": 199,
+    "n_deviants": 40,
+    "static_shannon_std": 0.7978787435176768,
+    "adaptive_shannon_w20_std": 0.8199151628738596,
+    "bayesian_surprise_std": 0.03317059299680955,
+    "changepoint_surprise_std": 0.7961894368277551
+  },
+  "sub-024": {
+    "n_trials": 197,
+    "n_deviants": 39,
+    "static_shannon_std": 0.8042614240612594,
+    "adaptive_shannon_w20_std": 0.7940016026089282,
+    "bayesian_surprise_std": 0.029177237525219443,
+    "changepoint_surprise_std": 0.7370127791074
+  },
+  "sub-025": {
+    "n_trials": 110,
+    "n_deviants": 20,
+    "static_shannon_std": 0.8369283726469572,
+    "adaptive_shannon_w20_std": 0.7421147467606499,
+    "bayesian_surprise_std": 0.038832751638652845,
+    "changepoint_surprise_std": 0.7208209232488261
+  },
+  "sub-026": {
+    "n_trials": 197,
+    "n_deviants": 39,
+    "static_shannon_std": 0.8042614240612594,
+    "adaptive_shannon_w20_std": 0.7820191827887558,
+    "bayesian_surprise_std": 0.033805426058872545,
+    "changepoint_surprise_std": 0.7585326886082849
+  },
+  "sub-027": {
+    "n_trials": 198,
+    "n_deviants": 39,
+    "static_shannon_std": 0.8063478122545874,
+    "adaptive_shannon_w20_std": 0.8064169032471795,
+    "bayesian_surprise_std": 0.03606562014554201,
+    "changepoint_surprise_std": 0.7681066679195815
+  },
+  "sub-028": {
+    "n_trials": 197,
+    "n_deviants": 40,
+    "static_shannon_std": 0.7935476740721207,
+    "adaptive_shannon_w20_std": 0.7706472894099481,
+    "bayesian_surprise_std": 0.03194188658884698,
+    "changepoint_surprise_std": 0.7705783235791697
+  },
+  "sub-029": {
+    "n_trials": 190,
+    "n_deviants": 37,
+    "static_shannon_std": 0.8109779271258659,
+    "adaptive_shannon_w20_std": 0.8047721690021744,
+    "bayesian_surprise_std": 0.03602442875001088,
+    "changepoint_surprise_std": 0.7889545140175004
+  },
+  "sub-030": {
+    "n_trials": 57,
+    "n_deviants": 11,
+    "static_shannon_std": 0.8145870839491796,
+    "adaptive_shannon_w20_std": 0.7284975828920822,
+    "bayesian_surprise_std": 0.056635708409454893,
+    "changepoint_surprise_std": 0.7472548661682636
+  },
+  "sub-031": {
+    "n_trials": 198,
+    "n_deviants": 39,
+    "static_shannon_std": 0.8063478122545876,
+    "adaptive_shannon_w20_std": 0.8154208190769768,
+    "bayesian_surprise_std": 0.029662027021329924,
+    "changepoint_surprise_std": 0.7543728436425258
+  },
+  "sub-032": {
+    "n_trials": 9,
+    "n_deviants": 6,
+    "static_shannon_std": 0.47140452079103157,
+    "adaptive_shannon_w20_std": 0.4110786830401697,
+    "bayesian_surprise_std": 0.08280560826671073,
+    "changepoint_surprise_std": 0.4060375422887123
+  },
+  "sub-033": {
+    "n_trials": 196,
+    "n_deviants": 40,
+    "static_shannon_std": 0.7913368787997942,
+    "adaptive_shannon_w20_std": 0.7787786063328213,
+    "bayesian_surprise_std": 0.02943538283437967,
+    "changepoint_surprise_std": 0.7537488618674166
+  },
+  "sub-034": {
+    "n_trials": 194,
+    "n_deviants": 40,
+    "static_shannon_std": 0.7868222333816076,
+    "adaptive_shannon_w20_std": 0.7456459358739184,
+    "bayesian_surprise_std": 0.030834369527959007,
+    "changepoint_surprise_std": 0.7398278356229434
+  },
+  "sub-035": {
+    "n_trials": 125,
+    "n_deviants": 19,
+    "static_shannon_std": 0.8903692747920098,
+    "adaptive_shannon_w20_std": 0.8637136975870223,
+    "bayesian_surprise_std": 0.04007197413129765,
+    "changepoint_surprise_std": 0.8752779993823057
+  },
+  "sub-036": {
+    "n_trials": 173,
+    "n_deviants": 37,
+    "static_shannon_std": 0.7700554382933871,
+    "adaptive_shannon_w20_std": 0.7697027889660158,
+    "bayesian_surprise_std": 0.03602987617709797,
+    "changepoint_surprise_std": 0.7600094590531109
+  },
+  "sub-037": {
+    "n_trials": 182,
+    "n_deviants": 38,
+    "static_shannon_std": 0.7811860370565198,
+    "adaptive_shannon_w20_std": 0.7844847887800545,
+    "bayesian_surprise_std": 0.034948008905704306,
+    "changepoint_surprise_std": 0.7494946699641293
+  },
+  "sub-038": {
+    "n_trials": 197,
+    "n_deviants": 40,
+    "static_shannon_std": 0.7935476740721207,
+    "adaptive_shannon_w20_std": 0.78900941291568,
+    "bayesian_surprise_std": 0.035504012487850865,
+    "changepoint_surprise_std": 0.7962621350737332
+  },
+  "sub-039": {
+    "n_trials": 191,
+    "n_deviants": 39,
+    "static_shannon_std": 0.7911083951551243,
+    "adaptive_shannon_w20_std": 0.7729766090793445,
+    "bayesian_surprise_std": 0.03146278049119639,
+    "changepoint_surprise_std": 0.7540489393779901
+  },
+  "sub-040": {
+    "n_trials": 173,
+    "n_deviants": 31,
+    "static_shannon_std": 0.8420200014653852,
+    "adaptive_shannon_w20_std": 0.7799851653772987,
+    "bayesian_surprise_std": 0.031622530623902044,
+    "changepoint_surprise_std": 0.7632564648032988
+  }
+}

@@ -1,0 +1,4 @@
+subject,task,n_epochs_after_rejection,rejection_rate,reason
+sub-003,P3,27,0.865,epoch count 27 < minimum 30; rejection rate 86.5% > 80%
+sub-005,P3,31,0.845,rejection rate 84.5% > 80%
+sub-032,P3,9,0.955,epoch count 9 < minimum 30; rejection rate 95.5% > 80%

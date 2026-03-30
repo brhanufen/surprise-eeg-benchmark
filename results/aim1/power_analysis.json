@@ -1,0 +1,43 @@
+{
+  "parameters": {
+    "n_subjects": 39,
+    "trials_per_subject": 900,
+    "total_observations": 35100,
+    "n_simulations": 1000,
+    "alpha": 0.05
+  },
+  "power_results": {
+    "r_0.10": {
+      "r": 0.1,
+      "beta_surprise": 0.10050378152592121,
+      "power": 1.0,
+      "n_significant": 1000,
+      "n_simulations": 1000,
+      "elapsed_seconds": 3.2
+    },
+    "r_0.15": {
+      "r": 0.15,
+      "beta_surprise": 0.15171652122725207,
+      "power": 1.0,
+      "n_significant": 1000,
+      "n_simulations": 1000,
+      "elapsed_seconds": 3.0
+    },
+    "r_0.20": {
+      "r": 0.2,
+      "beta_surprise": 0.20412414523193154,
+      "power": 1.0,
+      "n_significant": 1000,
+      "n_simulations": 1000,
+      "elapsed_seconds": 3.0
+    },
+    "r_0.25": {
+      "r": 0.25,
+      "beta_surprise": 0.2581988897471611,
+      "power": 1.0,
+      "n_significant": 1000,
+      "n_simulations": 1000,
+      "elapsed_seconds": 3.0
+    }
+  }
+}

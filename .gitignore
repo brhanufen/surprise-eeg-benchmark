@@ -1,0 +1,30 @@
+# Raw EEG data (too large for GitHub — download via src/download_erp_core.py)
+data/raw/
+
+# Processed data (reproducible from raw)
+data/processed/
+
+# Large result files (reproducible from pipeline)
+results/aim3/decoding_results_*.json
+results/aim2/analysis_df_*.csv
+results/aim2/tf_features_*.csv
+results/aim2/time_resolved_*.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Temp
+*.tmp
+build_v4.py
+~*
