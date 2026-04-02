@@ -691,6 +691,10 @@ add_table(
          "\u2014"],
         ["ERP+surprise (resid.)", "Within-subject", "MMN",
          "1.000 \u00b1 0.000*", "\u2014", "\u2014"],
+        ["ERP-only", "Within-subject", "P3", "0.602 \u00b1 0.128", "\u2014",
+         "\u2014"],
+        ["ERP+surprise (resid.)", "Within-subject", "P3",
+         "1.000 \u00b1 0.000*", "\u2014", "\u2014"],
     ],
     caption="Table 3. Decoding results. "
     "*Within-subject AUC = 1.0 reflects label leakage from deterministic "
