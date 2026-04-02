@@ -1,0 +1,32 @@
+Table 1. Preprocessing Parameters
+=============================================================================
+Parameter                   | Specification                                  
+----------------------------+------------------------------------------------
+High-pass filter            | 0.1 Hz (zero-phase FIR, Hamming window)        
+Low-pass filter             | 30 Hz (zero-phase FIR, Hamming window)         
+Sampling rate               | 256 Hz (downsampled from 1024 Hz)              
+Reference                   | Average reference                              
+Artifact rejection (ICA)    | FastICA, 15 components, automatic EOG detection
+Artifact rejection (epochs) | Amplitude threshold: ±150 µV                   
+Epoch window                | −200 to 800 ms (stimulus-locked)               
+Baseline correction         | −200 to 0 ms                                   
+MMN ROI channels            | Fz, FCz, Cz, FC3, FC4                          
+P3b ROI channels            | Pz, CPz, P3, P4, CP1, CP2                      
+
+
+Table 2. Encoding Model Comparison
+===================================================================
+Model | Window | ΔAIC | ΔBIC | LRT p | p (corrected) | β | β 95% CI
+------+--------+------+------+-------+---------------+---+---------
+
+
+Table 3. Decoding Results (MMN Paradigm)
+====================================================================================
+Feature Set  | Evaluation     | ROC-AUC       | PR-AUC | Balanced Acc. | Brier Score
+-------------+----------------+---------------+--------+---------------+------------
+ERP-only     | Cross-subject  | 0.543         | 0.226  | 0.531         | 0.249      
+ERP-only     | Within-subject | 0.534 ± 0.041 | —      | —             | —          
+ERP+surprise | Cross-subject  | 0.450         | 0.186  | 0.474         | 0.258      
+ERP+surprise | Within-subject | 1.000 ± 0.000 | —      | —             | —          
+Full         | Cross-subject  | 0.450         | 0.186  | 0.474         | 0.258      
+Full         | Within-subject | 1.000 ± 0.000 | —      | —             | —          
