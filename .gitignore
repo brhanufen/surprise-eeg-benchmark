@@ -1,14 +1,12 @@
-# Raw EEG data (too large for GitHub — download via src/download_erp_core.py)
-data/raw/
+# Data (download via src/download_erp_core.py)
+data/
 
-# Processed data (reproducible from raw)
-data/processed/
+# Generated outputs (reproducible from pipeline)
+results/
+figures/*.pdf
 
-# Large result files (reproducible from pipeline)
-results/aim3/decoding_results_*.json
-results/aim2/analysis_df_*.csv
-results/aim2/tf_features_*.csv
-results/aim2/time_resolved_*.json
+# Manuscript
+manuscript/
 
 # Python
 __pycache__/
@@ -26,12 +24,4 @@ Thumbs.db
 
 # Temp
 *.tmp
-build_v4.py
 ~*
-
-# Manuscript text (submitted via bioRxiv)
-manuscript/*.docx
-manuscript/*.pdf
-manuscript/*.md
-manuscript/tables.txt
-manuscript/~*
