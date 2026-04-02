@@ -29,8 +29,9 @@ Thumbs.db
 build_v4.py
 ~*
 
-# Generated manuscript outputs (regenerable)
+# Manuscript text (submitted via bioRxiv)
+manuscript/*.docx
 manuscript/*.pdf
-manuscript/cover_letter.docx
-manuscript/impact_statement.docx
+manuscript/*.md
+manuscript/tables.txt
 manuscript/~*
