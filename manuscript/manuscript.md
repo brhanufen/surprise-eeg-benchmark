@@ -2,7 +2,7 @@
 
 ## Abstract
 
-The brain continuously generates predictions about incoming sensory input and produces characteristic neural responses when those predictions are violated. In EEG oddball paradigms, these prediction-error responses manifest as the mismatch negativity (MMN) and P3b components. However, "surprise" can be formalized in multiple ways — from simple rarity (Shannon surprise) to belief revision (Bayesian surprise) to regime-change detection (change-point models) — and no prior study has systematically compared these formulations on the same dataset using single-trial methods. Here, we implemented four hierarchical surprise estimators and applied them to the ERP CORE dataset (N = 39 subjects, auditory MMN and visual P3 paradigms). Using linear mixed-effects encoding models, we found that Bayesian surprise — quantifying the magnitude of belief revision — was the only model that significantly predicted single-trial MMN amplitude beyond stimulus class alone (ΔAIC = −3.9, p = 0.015). This finding was internally replicated in the P3 paradigm, where both Bayesian (p = 0.044) and change-point (p = 0.017) surprise predicted P3b amplitude. However, high multicollinearity among Shannon-based and change-point predictive surprise regressors (VIF > 70) limited the interpretability of direct model comparisons. In a decoding analysis, contextual surprise features (residualized against stimulus type) did not improve cross-subject classification of stimulus class beyond ERP amplitude features alone (ΔAUC = −0.093). We conclude that trial-by-trial EEG prediction-error responses in oddball paradigms are most consistent with a belief-revision (Bayesian) computation, but that the modest effect sizes and high regressor collinearity call for future work with non-stationary paradigms that better differentiate competing models. All data, code, and analysis pipelines are publicly available.
+The brain continuously generates predictions about incoming sensory input and produces characteristic neural responses when those predictions are violated. In EEG oddball paradigms, these prediction-error responses manifest as the mismatch negativity (MMN) and P3b components. However, "surprise" can be formalized in multiple ways, and no prior study has systematically compared these formulations on the same dataset using single-trial methods. Here, we implemented four hierarchical surprise estimators and applied them to the ERP CORE dataset (N = 40; N = 38 analyzed for MMN, N = 36 for P3 after exclusions; auditory MMN and visual P3 paradigms). Using linear mixed-effects encoding models, we found that Bayesian surprise, quantifying the magnitude of belief revision, showed the strongest association with single-trial MMN amplitude among all models tested (uncorrected p = 0.015), though this did not survive Holm–Bonferroni correction for multiple comparisons (p_corrected = 0.062). In the P3 paradigm, change-point surprise (uncorrected p = 0.017, p_corrected = 0.069) and Bayesian surprise (uncorrected p = 0.044, p_corrected = 0.131) showed trends in the P3b window but likewise did not survive correction. High multicollinearity among Shannon-based and change-point surprise regressors (VIF > 70) limited the interpretability of direct model comparisons. All partial R² values were extremely small (<0.02%), and cross-validated prediction showed no real gain over stimulus class alone. In a decoding analysis, contextual surprise features (residualized against stimulus type) did not improve cross-subject classification of stimulus class beyond ERP amplitude features alone (ΔAUC = −0.093). We conclude that Bayesian surprise shows the strongest trend among competing models, but that stationary oddball paradigms lack the model identifiability needed to definitively distinguish surprise formulations due to high regressor multicollinearity. All data, code, and analysis pipelines are publicly available.
 
 ## 1. Introduction
 
@@ -20,7 +20,7 @@ Here, we address this gap by implementing four hierarchical surprise estimators 
 
 ### 2.1 Dataset
 
-We used the ERP CORE dataset (Kappenman et al., 2021), a standardized resource providing EEG data from 40 participants (sub-012 excluded from the original release, yielding N = 39) recorded during six optimized ERP paradigms. We analyzed two paradigms: the MMN paradigm (auditory oddball with frequency deviants; ~80% standards, ~20% deviants) and the P3 paradigm (visual oddball with letter targets; ~80% non-targets, ~20% targets). Data were recorded at 1024 Hz from 30 EEG channels plus 3 EOG channels using BioSemi ActiveTwo systems.
+We used the ERP CORE dataset (Kappenman et al., 2021), a standardized resource providing EEG data from 40 participants recorded during six optimized ERP paradigms. Sub-012 was excluded from the original release; sub-007 was excluded for excessive artifact rejection (85.4% rejection rate), yielding N = 38 for MMN analyses. We analyzed the MMN paradigm (auditory oddball with frequency deviants; ~80% standards, ~20% deviants) and the P3 paradigm (visual oddball with letter targets; ~80% non-targets, ~20% targets; sub-003, sub-005, sub-032 excluded for >80% rejection rates, yielding N = 36). Data were recorded at 1024 Hz from 30 EEG channels plus 3 EOG channels using BioSemi ActiveTwo systems.
 
 ### 2.2 Preprocessing
 
@@ -33,7 +33,7 @@ All preprocessing was performed using MNE-Python 1.8.0 (Gramfort et al., 2013) w
 - **Epoching:** −200 to 800 ms relative to stimulus onset
 - **Baseline correction:** −200 to 0 ms
 
-After preprocessing, the MMN dataset comprised 35,476 epochs across 39 subjects (mean 910 ± 77 epochs per subject; 725 standards, 185 deviants; 7.2% rejection rate). The P3 dataset comprised 6,410 epochs (mean 164 ± 50 epochs per subject).
+After preprocessing and exclusion, the MMN dataset comprised 35,332 epochs across 38 subjects (mean 930 ± 48 per subject; 7.0% rejection rate). The P3 dataset comprised 5,865 epochs across 36 subjects.
 
 ### 2.3 Surprise Estimators
 
@@ -51,11 +51,13 @@ Secondary metrics included posterior entropy, estimated volatility (entropy of t
 
 ### 2.4 Feature Extraction
 
-**ERP features:** Mean amplitude was extracted in the MMN window (100–250 ms, fronto-central ROI: Fz, FCz, Cz, FC3, FC4) and P3b window (250–500 ms, parietal ROI: Pz, CPz, P3, P4, CP1, CP2).
+**ERP features:** Mean amplitude was extracted in two time windows for both paradigms: the MMN window (100–250 ms, fronto-central ROI: Fz, FCz, Cz, FC3, FC4) and the P3b window (250–500 ms, parietal ROI: Pz, CPz, P3, P4, CP1, CP2). Testing both windows in both paradigms allowed us to assess whether surprise effects were specific to the expected ERP component or extended across time windows.
 
 ### 2.5 Encoding Analysis
 
 **Primary analysis:** Linear mixed-effects models were fit with EEG amplitude as the dependent variable, stimulus class as a fixed effect (baseline model), and subject as a random intercept. Each surprise model was tested individually against the stimulus-class-only baseline (individual-model-vs-baseline design), avoiding multicollinearity from joint inclusion. Model comparison used AIC and likelihood ratio tests (LRT).
+
+**Cross-validated prediction:** To assess out-of-sample predictive value, we performed leave-one-subject-out cross-validation: for each held-out subject, mixed-effects models were fit on the remaining subjects and used to predict the held-out subject's trial-by-trial amplitudes. Prediction MSE was compared between baseline and surprise-augmented models via paired t-tests across folds. Holm–Bonferroni correction was applied within each ERP window (4 comparisons).
 
 **Time-resolved regression:** At each time point, ERP amplitude (averaged across ROI channels) was regressed on each z-scored surprise regressor, pooled across subjects. Group-level significance was assessed via one-sample t-tests with cluster-based permutation correction (1000 permutations).
 
@@ -81,19 +83,21 @@ Grand-average ERP waveforms replicated published ERP CORE results. In the MMN pa
 
 ### 3.2 Surprise Regressor Properties
 
-The four surprise models produced regressors with markedly different properties (Figure 1C). Static Shannon, adaptive Shannon, and change-point predictive surprise were highly correlated (r = 0.95–0.99), reflecting their shared dependence on stimulus frequency. Bayesian surprise was substantially more distinct (r = 0.26–0.29 with all other models).
+The four surprise models produced regressors with markedly different properties (Figure 1C). Static Shannon, adaptive Shannon, and change-point surprise were highly correlated (r = 0.95–0.99), reflecting their shared dependence on stimulus frequency. Bayesian surprise was substantially more distinct (r = 0.26–0.29 with all other models).
 
 VIF analysis confirmed severe multicollinearity: static Shannon (VIF = 70.3), change-point (VIF = 105.9), and adaptive Shannon (VIF = 17.3) all exceeded the threshold of 10. Only Bayesian surprise (VIF = 1.1) was independent. This pattern was consistent across paradigms. We therefore interpret the individual-model-vs-baseline comparisons as the primary analysis and do not report combined models.
 
 ### 3.3 Encoding Results (H1)
 
-**MMN paradigm (primary).** Bayesian surprise was the only model that significantly improved prediction of single-trial MMN amplitude beyond stimulus class alone (ΔAIC = −3.9, LRT p = 0.015). Change-point predictive surprise showed marginal improvement (ΔAIC = −2.3, p = 0.038). Static Shannon (p = 0.066) and adaptive Shannon (p = 0.674) did not reach significance. No surprise model significantly predicted P3b amplitude in the MMN paradigm (all p > 0.39).
+**MMN paradigm (primary).** Bayesian surprise showed the strongest association with single-trial MMN amplitude (ΔAIC = −3.9, uncorrected p = 0.015), but did not survive Holm–Bonferroni correction (p_corrected = 0.062). Change-point surprise was marginal before correction (ΔAIC = −2.3, p = 0.038, p_corrected = 0.115). Static Shannon (p = 0.066) and adaptive Shannon (p = 0.674) did not reach significance. No surprise model significantly predicted P3b amplitude in the MMN paradigm (all p > 0.39; Table 2A). All partial R² values were very small (<0.02%), indicating that surprise explains a negligible fraction of single-trial variance beyond stimulus class.
 
-**P3 paradigm (internal replication).** In the P3b window, both change-point predictive surprise (ΔAIC = −3.7, p = 0.017) and Bayesian surprise (ΔAIC = −2.0, p = 0.044) significantly predicted P3b amplitude. No model predicted amplitude in the fronto-central window for the P3 paradigm.
+**P3 paradigm (internal replication).** In the P3b window, change-point surprise (uncorrected p = 0.017, p_corrected = 0.069) and Bayesian surprise (uncorrected p = 0.044, p_corrected = 0.131) showed trends but did not survive Holm–Bonferroni correction (Table 2B). The fronto-central (MMN) window was also tested in the P3 paradigm but yielded no significant results for any model (all p > 0.40; not tabulated).
+
+**Cross-validated prediction.** Leave-one-subject-out cross-validation showed no significant improvement in out-of-sample prediction for any surprise model over the baseline (all p > 0.64), confirming the minimal explanatory benefit.
 
 **Time-resolved analysis.** All four surprise models showed significant clusters of regression coefficients in the MMN window (approximately 100–230 ms) at fronto-central sites. At parietal sites, significant clusters emerged in both the MMN window (125–230 ms) and the P3b window (330–435 ms) for all models except Bayesian surprise, which showed a later cluster (344–383 ms, Figure 3).
 
-**Summary for H1:** H1 is partially supported. Bayesian surprise, which measures belief revision, is the best and most consistently significant predictor of single-trial prediction-error responses across both paradigms. However, the advantage over other models is modest in magnitude, and the high collinearity among Shannon-based models limits the specificity of model comparisons.
+**Summary for H1:** H1 is partially supported. Bayesian surprise shows the strongest trend toward predicting single-trial prediction-error responses across both paradigms, but no model survives correction for multiple comparisons. Effect sizes are very small, and the high collinearity among Shannon-based models limits the specificity of model comparisons.
 
 ### 3.4 Decoding Results (H2)
 
@@ -107,13 +111,13 @@ VIF analysis confirmed severe multicollinearity: static Shannon (VIF = 70.3), ch
 
 **Adaptive Shannon window size.** Results were qualitatively similar across window sizes (w = 10, 20, 50). The w = 20 window yielded the highest correlation with the neural data but none reached significance.
 
-**Change-point hazard rate.** Sensitivity analysis over h ∈ {1/50, 1/100, 1/200, 1/500} showed that the change-point predictive surprise regressor was highly correlated with static Shannon across all hazard rates (r > 0.97), consistent with the stationary nature of the oddball paradigm. The hazard rate had minimal impact on the encoding results.
+**Change-point hazard rate.** Sensitivity analysis over h ∈ {1/50, 1/100, 1/200, 1/500} showed that the change-point surprise regressor was highly correlated with static Shannon across all hazard rates (r > 0.97), consistent with the stationary nature of the oddball paradigm. The hazard rate had minimal impact on the encoding results.
 
 ## 4. Discussion
 
 ### 4.1 Key Findings
 
-This study provides the first systematic, single-trial comparison of four hierarchical surprise formulations applied to prediction-error responses in human EEG. Our primary finding is that Bayesian surprise — quantifying the magnitude of belief revision — is the most consistent and statistically significant predictor of trial-by-trial MMN amplitude, outperforming static frequency-based surprise and providing a significant improvement over the stimulus-class-only baseline. This finding was replicated in the P3 paradigm, where both Bayesian and change-point surprise predicted P3b amplitude.
+This study provides the first systematic, single-trial comparison of four hierarchical surprise formulations applied to prediction-error responses in human EEG. Bayesian surprise — quantifying the magnitude of belief revision — showed the strongest trend toward predicting trial-by-trial MMN amplitude, but this did not survive correction for multiple comparisons. A similar pattern emerged in the P3 paradigm, where both Bayesian and change-point surprise showed trends for P3b amplitude. No model significantly improved out-of-sample prediction or cross-subject decoding. These results suggest that while computational models of surprise capture meaningful aspects of neural prediction error, the effect sizes in stationary oddball paradigms are too small to reliably distinguish between formulations.
 
 ### 4.2 Relation to Prior Work
 
@@ -129,11 +133,11 @@ The relatively poor performance of adaptive Shannon surprise is notable: despite
 
 **Label leakage in decoding.** Our within-subject decoding analysis yielded perfect classification (AUC = 1.0) when surprise features were included, even after residualizing against stimulus type. This occurs because surprise regressors are deterministic functions of the stimulus sequence: knowing the surprise values at each trial position uniquely identifies the stimulus type. This is not a bug but a fundamental property of these models when applied to a known, fixed sequence. We designated cross-subject decoding as the primary test of H2 specifically because of this confound, and we report the within-subject results transparently to alert future researchers.
 
-**Effect sizes.** While statistically significant, the effect sizes for Bayesian surprise predicting MMN amplitude are small (ΔAIC = −3.9 on a dataset of 35,476 observations). This is consistent with the well-known difficulty of single-trial EEG analysis and the high noise inherent in event-related potentials. The small effects do not undermine the conclusion — they indicate that surprise modulates a small but reliable portion of trial-to-trial ERP variability.
+**Effect sizes.** The effect sizes for Bayesian surprise predicting MMN amplitude are very small (partial R² < 0.02%, ΔAIC = −3.9 on a dataset of 35,332 observations). Cross-validated prediction showed no improvement over the baseline model, suggesting that the encoding-model improvements may reflect overfitting to in-sample noise rather than genuine predictive power. This is consistent with the well-known difficulty of single-trial EEG analysis.
 
 ### 4.4 Limitations
 
-First, the oddball paradigm is stationary by design, limiting the ability to differentiate between surprise models that depend on non-stationarity (particularly the change-point model). Second, our EEG preprocessing used amplitude-based rejection rather than the planned autoreject algorithm, due to missing electrode position information in the ERP CORE files; this may have retained some artifacts. Third, with N = 39 subjects, our power to detect small differences between surprise models in pairwise comparisons is limited. Fourth, we examined only two ERP paradigms; generalization to more complex or naturalistic contexts remains to be established.
+First, the oddball paradigm is stationary by design, limiting the ability to differentiate between surprise models that depend on non-stationarity (particularly the change-point model). Second, our EEG preprocessing used amplitude-based rejection rather than the planned autoreject algorithm, due to missing electrode position information in the ERP CORE files; this may have retained some artifacts. Third, with N = 38 (MMN) and N = 36 (P3) subjects, our power to detect small differences between surprise models in pairwise comparisons is limited. Fourth, we examined only two ERP paradigms; generalization to more complex or naturalistic contexts remains to be established.
 
 ### 4.5 Future Directions
 
@@ -141,11 +145,11 @@ Three extensions would strengthen these findings. First, applying the same bench
 
 ## 5. Conclusion
 
-We present a reproducible benchmark comparing four stochastic surprise formulations as predictors of single-trial EEG prediction-error responses. Bayesian surprise — measuring the magnitude of belief revision — emerges as the most consistent predictor of both MMN and P3b amplitudes, supporting predictive coding accounts of neural prediction error. However, the high collinearity among models in stationary oddball paradigms limits the specificity of model comparisons, and contextual surprise does not improve cross-subject stimulus classification. These results establish a baseline for future work with non-stationary paradigms and provide a fully open analysis pipeline for the computational EEG community.
+This paper reports a benchmark comparing four surprise formulations as predictors of single-trial EEG responses. Bayesian surprise shows the strongest trend, but no model survives correction for multiple comparisons. High regressor collinearity and trivial label leakage are identified as critical methodological challenges. These results set a baseline and point to non-stationary paradigms as the necessary next step.
 
 ## Data and Code Availability
 
-All data used in this study are from the publicly available ERP CORE dataset (Kappenman et al., 2021; https://erpinfo.org/erp-core). The complete analysis pipeline, including preprocessing, surprise model estimation, encoding and decoding analyses, and figure generation code, is available at our GitHub repository. The conda environment specification ensures full reproducibility.
+Data come from the ERP CORE dataset (Kappenman et al., 2021; https://erpinfo.org/erp-core; CC BY-SA 4.0). Code is available at https://github.com/brhanufen/surprise-eeg-benchmark. The conda environment specification ensures full reproducibility.
 
 ## References
 

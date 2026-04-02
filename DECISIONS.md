@@ -5,7 +5,7 @@
 ### Dataset
 - **Decision:** Use ERP CORE (Kappenman et al., 2021) from OSF
 - **Rationale:** 40 subjects, published reference results, standardized paradigms
-- **Note:** sub-012 missing from original release; N=39 usable
+- **Note:** sub-012 missing from original release. After artifact-based exclusions: N=38 for MMN (sub-007 excluded, 85.4% rejection), N=36 for P3 (sub-003, sub-005, sub-032 excluded, >80% rejection)
 
 ### Event codes (verified from task-*_events.json)
 - **MMN:** 80=standard, 70=deviant, 180=first standards stream (excluded)

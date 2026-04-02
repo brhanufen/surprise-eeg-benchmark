@@ -57,10 +57,15 @@ surprise-eeg-benchmark/
 
 ## Key Results
 
-- Bayesian surprise is the best predictor of MMN amplitude (p = 0.015)
-- Replicated in P3 paradigm for P3b amplitude (p = 0.044)
-- High multicollinearity (VIF > 70) limits Shannon vs change-point comparisons
-- Contextual surprise does not improve cross-subject decoding
+- Bayesian surprise shows the strongest trend toward predicting MMN amplitude (uncorrected p = 0.015, Holm-corrected p = 0.062)
+- A similar trend emerged in the P3 paradigm for P3b amplitude (Bayesian p = 0.044, change-point p = 0.017), but no model survives correction
+- All partial R² values are extremely small (<0.02%); cross-validated prediction shows no gain
+- High multicollinearity (VIF > 70) limits Shannon vs. change-point comparisons
+- Contextual surprise does not improve cross-subject decoding (ΔAUC = −0.093)
+
+## Code
+
+https://github.com/brhanufen/surprise-eeg-benchmark
 
 ## Citation
 

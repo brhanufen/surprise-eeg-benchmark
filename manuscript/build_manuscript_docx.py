@@ -111,12 +111,143 @@ def add_spacer():
     p.paragraph_format.space_after = Pt(0)
     p.paragraph_format.space_before = Pt(0)
 
+def add_table(headers, rows, caption=""):
+    """Add a formatted table with caption."""
+    if caption:
+        cap = doc.add_paragraph()
+        # Split caption at first period for bold label
+        if '.' in caption:
+            label, rest = caption.split('.', 1)
+            run_label = cap.add_run(label + '.')
+            run_label.bold = True
+            run_label.font.name = 'Times New Roman'
+            run_label.font.size = Pt(10)
+            if rest.strip():
+                run_rest = cap.add_run(' ' + rest.strip())
+                run_rest.font.name = 'Times New Roman'
+                run_rest.font.size = Pt(10)
+        else:
+            run = cap.add_run(caption)
+            run.bold = True
+            run.font.name = 'Times New Roman'
+            run.font.size = Pt(10)
+        cap.paragraph_format.space_after = Pt(4)
+
+    n_cols = len(headers)
+    table = doc.add_table(rows=1 + len(rows), cols=n_cols)
+    table.style = 'Light Shading'
+
+    # Header row
+    for j, h in enumerate(headers):
+        cell = table.rows[0].cells[j]
+        cell.text = h
+        for par in cell.paragraphs:
+            for run in par.runs:
+                run.bold = True
+                run.font.name = 'Times New Roman'
+                run.font.size = Pt(9)
+
+    # Data rows
+    for i, row in enumerate(rows):
+        for j, val in enumerate(row):
+            cell = table.rows[i + 1].cells[j]
+            cell.text = str(val)
+            for par in cell.paragraphs:
+                for run in par.runs:
+                    run.font.name = 'Times New Roman'
+                    run.font.size = Pt(9)
+
+    add_spacer()
+
 # ═══════════════════════════════════════════════════════════
 #  MANUSCRIPT
 # ═══════════════════════════════════════════════════════════
 
+# ── Running head ───────────────────────────────────────────
+p = doc.add_paragraph()
+p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+run = p.add_run("Running head: SURPRISE SIGNATURES IN HUMAN EEG")
+run.font.name = 'Times New Roman'
+run.font.size = Pt(10)
+run.font.color.rgb = RGBColor(128, 128, 128)
+p.paragraph_format.space_after = Pt(24)
+
 # ── Title ───────────────────────────────────────────────────
 add_title("Stochastic Surprise Signatures in Human EEG:\nA Reproducible Benchmark of Prediction-Error Models\nUsing the ERP CORE Oddball Dataset")
+
+# ── Authors and affiliations ──────────────────────────────
+p = doc.add_paragraph()
+p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+run = p.add_run("Brhanu F. Znabu")
+run.font.name = 'Times New Roman'
+run.font.size = Pt(12)
+run2 = p.add_run("1*")
+run2.font.name = 'Times New Roman'
+run2.font.size = Pt(10)
+run2.font.superscript = True
+run3 = p.add_run(", Zohaib Atif")
+run3.font.name = 'Times New Roman'
+run3.font.size = Pt(12)
+run4 = p.add_run("2")
+run4.font.name = 'Times New Roman'
+run4.font.size = Pt(10)
+run4.font.superscript = True
+run5 = p.add_run(", Pradeep Devkota")
+run5.font.name = 'Times New Roman'
+run5.font.size = Pt(12)
+run6 = p.add_run("3")
+run6.font.name = 'Times New Roman'
+run6.font.size = Pt(10)
+run6.font.superscript = True
+
+aff1 = doc.add_paragraph()
+aff1.alignment = WD_ALIGN_PARAGRAPH.CENTER
+r = aff1.add_run(
+    "\u00b9Biomedical Engineering Program, College of Engineering, "
+    "University of Nebraska-Lincoln, Lincoln, NE 68588-0642, USA."
+)
+r.font.name = 'Times New Roman'
+r.font.size = Pt(10)
+
+aff2 = doc.add_paragraph()
+aff2.alignment = WD_ALIGN_PARAGRAPH.CENTER
+r = aff2.add_run(
+    "\u00b2Department of Biomedical Science and Engineering, Gwangju 61005, South Korea"
+)
+r.font.name = 'Times New Roman'
+r.font.size = Pt(10)
+
+aff3 = doc.add_paragraph()
+aff3.alignment = WD_ALIGN_PARAGRAPH.CENTER
+r = aff3.add_run(
+    "\u00b3School of Biomedical Science, University of Kansas Medical Center, "
+    "Kansas City, KS 66160, USA"
+)
+r.font.name = 'Times New Roman'
+r.font.size = Pt(10)
+
+add_spacer()
+corr = doc.add_paragraph()
+corr.alignment = WD_ALIGN_PARAGRAPH.LEFT
+r = corr.add_run(
+    "Corresponding author: Brhanu F. Znabu, 25674436@nebraska.edu, "
+    "ORCID: 0009-0009-7230-754X"
+)
+r.font.name = 'Times New Roman'
+r.font.size = Pt(10)
+
+add_spacer()
+kw = doc.add_paragraph()
+r = kw.add_run("Keywords: ")
+r.bold = True
+r.font.name = 'Times New Roman'
+r.font.size = Pt(10)
+r2 = kw.add_run(
+    "prediction error, surprise, mismatch negativity, P3b, Bayesian inference, EEG"
+)
+r2.font.name = 'Times New Roman'
+r2.font.size = Pt(10)
+
 add_spacer()
 
 # ── Abstract ────────────────────────────────────────────────
@@ -127,27 +258,31 @@ add_body_no_indent(
     "and produces characteristic neural responses when those predictions are violated. "
     "In EEG oddball paradigms, these prediction-error responses manifest as the "
     "mismatch negativity (MMN) and P3b components. However, \u201csurprise\u201d can be "
-    "formalized in multiple ways \u2014 from simple rarity (Shannon surprise) to belief "
-    "revision (Bayesian surprise) to regime-change detection (change-point models) "
-    "\u2014 and no prior study has systematically compared these formulations on the "
-    "same dataset using single-trial methods. Here, we implemented four hierarchical "
-    "surprise estimators and applied them to the ERP CORE dataset (N = 39 subjects, "
-    "auditory MMN and visual P3 paradigms). Using linear mixed-effects encoding "
-    "models, we found that Bayesian surprise \u2014 quantifying the magnitude of belief "
-    "revision \u2014 was the only model that significantly predicted single-trial MMN "
-    "amplitude beyond stimulus class alone (\u0394AIC = \u22123.9, p = 0.015). This finding "
-    "was internally replicated in the P3 paradigm, where both Bayesian (p = 0.044) "
-    "and change-point (p = 0.017) surprise predicted P3b amplitude. However, high "
-    "multicollinearity among Shannon-based and change-point predictive surprise "
-    "regressors (VIF > 70) limited the interpretability of direct model comparisons. "
-    "In a decoding analysis, contextual surprise features (residualized against "
-    "stimulus type) did not improve cross-subject classification of stimulus class "
-    "beyond ERP amplitude features alone (\u0394AUC = \u22120.093). We conclude that "
-    "trial-by-trial EEG prediction-error responses in oddball paradigms are most "
-    "consistent with a belief-revision (Bayesian) computation, but that the modest "
-    "effect sizes and high regressor collinearity call for future work with "
-    "non-stationary paradigms that better differentiate competing models. All data, "
-    "code, and analysis pipelines are publicly available."
+    "formalized in multiple ways, and no prior study has systematically compared "
+    "these formulations on the same dataset using single-trial methods. Here, we "
+    "implemented four hierarchical surprise estimators and applied them to the "
+    "ERP CORE dataset (N = 40; N = 38 analyzed for MMN, N = 36 for P3 after "
+    "exclusions; auditory MMN and visual P3 paradigms). Using linear mixed-effects "
+    "encoding models, we found that Bayesian surprise, quantifying the magnitude "
+    "of belief revision, showed the strongest association with single-trial MMN "
+    "amplitude among all models tested (uncorrected p = 0.015), though this did "
+    "not survive Holm\u2013Bonferroni correction for multiple comparisons "
+    "(p_corrected = 0.062). In the P3 paradigm, change-point surprise "
+    "(uncorrected p = 0.017, p_corrected = 0.069) and Bayesian surprise "
+    "(uncorrected p = 0.044, p_corrected = 0.131) showed trends in the P3b "
+    "window but likewise did not survive correction. High multicollinearity "
+    "among Shannon-based and change-point surprise regressors "
+    "(VIF > 70) limited the interpretability of direct model comparisons. All "
+    "partial R\u00b2 values were extremely small (<0.02%), and cross-validated "
+    "prediction showed no real gain over stimulus class alone. In a decoding "
+    "analysis, contextual surprise features (residualized against stimulus type) "
+    "did not improve cross-subject classification of stimulus class beyond ERP "
+    "amplitude features alone (\u0394AUC = \u22120.093). We conclude that Bayesian "
+    "surprise shows the strongest trend among competing models, but that "
+    "stationary oddball paradigms lack the model identifiability needed to "
+    "definitively distinguish surprise formulations due to high regressor "
+    "multicollinearity. All data, code, and analysis pipelines "
+    "are publicly available."
 )
 
 # ── 1  Introduction ─────────────────────────────────────────
@@ -223,11 +358,13 @@ add_heading("2. Methods", level=1)
 add_heading("2.1 Dataset", level=2)
 add_body(
     "We used the ERP CORE dataset (Kappenman et al., 2021), a standardized resource "
-    "providing EEG data from 40 participants (sub-012 excluded from the original "
-    "release, yielding N = 39) recorded during six optimized ERP paradigms. We "
-    "analyzed two paradigms: the MMN paradigm (auditory oddball with frequency "
+    "providing EEG data from 40 participants recorded during six optimized ERP "
+    "paradigms. Sub-012 was excluded from the original release; sub-007 was excluded "
+    "for excessive artifact rejection (85.4% rejection rate), yielding N = 38 for "
+    "MMN analyses. We analyzed the MMN paradigm (auditory oddball with frequency "
     "deviants; ~80% standards, ~20% deviants) and the P3 paradigm (visual oddball "
-    "with letter targets; ~80% non-targets, ~20% targets). Data were recorded at "
+    "with letter targets; ~80% non-targets, ~20% targets; sub-003, sub-005, sub-032 "
+    "excluded for >80% rejection rates, yielding N = 36). Data were recorded at "
     "1024 Hz from 30 EEG channels plus 3 EOG channels using BioSemi ActiveTwo systems."
 )
 
@@ -247,10 +384,28 @@ add_bullet(
 add_bullet("**Epoching:** \u2212200 to 800 ms relative to stimulus onset")
 add_bullet("**Baseline correction:** \u2212200 to 0 ms")
 
+# ── Table 1: Preprocessing parameters ──
+add_table(
+    headers=["Parameter", "Specification"],
+    rows=[
+        ["High-pass filter", "0.1 Hz (zero-phase FIR, Hamming window)"],
+        ["Low-pass filter", "30 Hz (zero-phase FIR, Hamming window)"],
+        ["Sampling rate", "256 Hz (downsampled from 1024 Hz)"],
+        ["Reference", "Average reference"],
+        ["Artifact rejection (ICA)", "FastICA, 15 components, automatic EOG detection"],
+        ["Artifact rejection (epochs)", "Amplitude threshold: \u00b1150 \u00b5V"],
+        ["Epoch window", "\u2212200 to 800 ms (stimulus-locked)"],
+        ["Baseline correction", "\u2212200 to 0 ms"],
+        ["Exclusion criterion",
+         "<100 epochs (MMN) or <30 epochs (P3), or >80% rejection rate"],
+    ],
+    caption="Table 1. Preprocessing parameters and exclusion criteria."
+)
+
 add_body(
-    "After preprocessing, the MMN dataset comprised 35,476 epochs across 39 subjects "
-    "(mean 910 \u00b1 77 epochs per subject; 725 standards, 185 deviants; 7.2% rejection "
-    "rate). The P3 dataset comprised 6,410 epochs (mean 164 \u00b1 50 epochs per subject)."
+    "After preprocessing and exclusion, the MMN dataset comprised 35,332 epochs "
+    "across 38 subjects (mean 930 \u00b1 48 per subject; 7.0% rejection rate). The "
+    "P3 dataset comprised 5,865 epochs across 36 subjects."
 )
 
 add_heading("2.3 Surprise Estimators", level=2)
@@ -289,9 +444,12 @@ add_body(
 
 add_heading("2.4 Feature Extraction", level=2)
 add_body(
-    "**ERP features:** Mean amplitude was extracted in the MMN window "
-    "(100\u2013250 ms, fronto-central ROI: Fz, FCz, Cz, FC3, FC4) and P3b window "
-    "(250\u2013500 ms, parietal ROI: Pz, CPz, P3, P4, CP1, CP2)."
+    "**ERP features:** Mean amplitude was extracted in two time windows for "
+    "both paradigms: the MMN window (100\u2013250 ms, fronto-central ROI: Fz, FCz, "
+    "Cz, FC3, FC4) and the P3b window (250\u2013500 ms, parietal ROI: Pz, CPz, P3, "
+    "P4, CP1, CP2). Testing both windows in both paradigms allowed us to assess "
+    "whether surprise effects were specific to the expected ERP component or "
+    "extended across time windows."
 )
 
 add_heading("2.5 Encoding Analysis", level=2)
@@ -302,6 +460,15 @@ add_body(
     "against the stimulus-class-only baseline (individual-model-vs-baseline design), "
     "avoiding multicollinearity from joint inclusion. Model comparison used AIC and "
     "likelihood ratio tests (LRT)."
+)
+add_body(
+    "**Cross-validated prediction:** To assess out-of-sample predictive value, "
+    "we performed leave-one-subject-out cross-validation: for each held-out "
+    "subject, mixed-effects models were fit on the remaining subjects and used "
+    "to predict the held-out subject\u2019s trial-by-trial amplitudes. Prediction "
+    "MSE was compared between baseline and surprise-augmented models via paired "
+    "t-tests across folds. Holm\u2013Bonferroni correction was applied within each "
+    "ERP window (4 comparisons)."
 )
 add_body(
     "**Time-resolved regression:** At each time point, ERP amplitude (averaged "
@@ -355,14 +522,14 @@ add_figure(
     "(A) Grand-average ERP waveforms at fronto-central sites (MMN ROI) for standard "
     "(blue) and deviant (red) stimuli, with shaded \u00b1SEM. Gray bar marks the MMN "
     "window (100\u2013250 ms). (B) Grand-average at parietal sites (P3b ROI). "
-    "(C) Difference topography at 175 ms. (D) Epoch counts per subject after "
-    "artifact rejection."
+    "(C) Difference waveforms (deviant \u2212 standard) at fronto-central and parietal "
+    "sites. (D) Epoch counts per subject after artifact rejection."
 )
 
 add_heading("3.2 Surprise Regressor Properties", level=2)
 add_body(
     "The four surprise models produced regressors with markedly different properties "
-    "(Figure 1C). Static Shannon, adaptive Shannon, and change-point predictive "
+    "(Figure 1C). Static Shannon, adaptive Shannon, and change-point "
     "surprise were highly correlated (r = 0.95\u20130.99), reflecting their shared "
     "dependence on stimulus frequency. Bayesian surprise was substantially more "
     "distinct (r = 0.26\u20130.29 with all other models)."
@@ -386,21 +553,81 @@ add_figure(
     "for comparison. Gray lines mark deviant trials. (D) Analysis pipeline flowchart."
 )
 
+# ── Table 2A: Encoding results — MMN paradigm ──
+add_table(
+    headers=["Model", "Window", "\u0394AIC",
+             "p (uncorr.)", "p (Holm)", "Partial R\u00b2", "\u03b2 [95% CI]"],
+    rows=[
+        ["Static Shannon", "MMN", "\u22121.4", "0.066", "0.131",
+         "9.5\u00d710\u207b\u2075", "2.86 [\u22120.20, 5.93]"],
+        ["Adaptive Shannon", "MMN", "+1.8", "0.674", "0.674",
+         "5.0\u00d710\u207b\u2076", "\u22120.03 [\u22120.20, 0.13]"],
+        ["Bayesian", "MMN", "\u22123.9", "0.015", "0.062",
+         "1.6\u00d710\u207b\u2074", "\u22120.06 [\u22120.11, \u22120.01]"],
+        ["Change-point", "MMN", "\u22122.3", "0.038", "0.115",
+         "1.2\u00d710\u207b\u2074", "\u22120.41 [\u22120.81, \u22120.02]"],
+        ["Static Shannon", "P3b", "+1.3", "0.394", "1.000",
+         "2.0\u00d710\u207b\u2075", "1.51 [\u22121.98, 4.99]"],
+        ["Adaptive Shannon", "P3b", "+1.6", "0.540", "1.000",
+         "1.1\u00d710\u207b\u2075", "0.06 [\u22120.13, 0.24]"],
+        ["Bayesian", "P3b", "+1.8", "0.679", "1.000",
+         "4.4\u00d710\u207b\u2076", "\u22120.01 [\u22120.07, 0.05]"],
+        ["Change-point", "P3b", "+1.7", "0.557", "1.000",
+         "9.7\u00d710\u207b\u2076", "\u22120.13 [\u22120.58, 0.31]"],
+    ],
+    caption="Table 2A. Encoding model comparison \u2014 MMN paradigm (N = 38). "
+    "Each model tested individually against a stimulus-class-only baseline. "
+    "Holm\u2013Bonferroni correction applied within each ERP window (4 comparisons). "
+    "Both the MMN window (100\u2013250 ms) and P3b window (250\u2013500 ms) were tested "
+    "within the MMN paradigm to assess whether surprise effects extended beyond "
+    "the primary MMN component."
+)
+
+# ── Table 2B: Encoding results — P3 paradigm ──
+add_table(
+    headers=["Model", "Window", "\u0394AIC",
+             "p (uncorr.)", "p (Holm)", "\u03b2 [95% CI]"],
+    rows=[
+        ["Static Shannon", "P3b", "+1.7", "0.585", "1.000",
+         "\u22120.35 [\u22121.59, 0.90]"],
+        ["Adaptive Shannon", "P3b", "+0.2", "0.185", "0.369",
+         "0.30 [\u22120.14, 0.74]"],
+        ["Bayesian", "P3b", "\u22122.0", "0.044", "0.131",
+         "0.16 [0.004, 0.32]"],
+        ["Change-point", "P3b", "\u22123.7", "0.017", "0.069",
+         "0.76 [0.13, 1.38]"],
+    ],
+    caption="Table 2B. Encoding model comparison \u2014 P3 paradigm (N = 36). "
+    "Same analysis as Table 2A, applied to the visual P3 paradigm as an "
+    "internal replication. Only the P3b window (250\u2013500 ms) is reported."
+)
+
 add_heading("3.3 Encoding Results (H1)", level=2)
 add_body(
-    "**MMN paradigm (primary).** Bayesian surprise was the only model that "
-    "significantly improved prediction of single-trial MMN amplitude beyond "
-    "stimulus class alone (\u0394AIC = \u22123.9, LRT p = 0.015). Change-point predictive "
-    "surprise showed marginal improvement (\u0394AIC = \u22122.3, p = 0.038). Static "
-    "Shannon (p = 0.066) and adaptive Shannon (p = 0.674) did not reach "
-    "significance. No surprise model significantly predicted P3b amplitude in "
-    "the MMN paradigm (all p > 0.39)."
+    "**MMN paradigm (primary).** Bayesian surprise showed the strongest "
+    "association with single-trial MMN amplitude (\u0394AIC = \u22123.9, uncorrected "
+    "p = 0.015), but did not survive Holm\u2013Bonferroni correction "
+    "(p_corrected = 0.062). Change-point surprise was marginal "
+    "before correction (\u0394AIC = \u22122.3, p = 0.038, p_corrected = 0.115). "
+    "Static Shannon (p = 0.066) and adaptive Shannon (p = 0.674) did not "
+    "reach significance. No surprise model significantly predicted P3b "
+    "amplitude in the MMN paradigm (all p > 0.39; Table 2A). All partial R\u00b2 "
+    "values were very small (<0.02%), indicating that surprise explains a "
+    "negligible fraction of single-trial variance beyond stimulus class."
 )
 add_body(
-    "**P3 paradigm (internal replication).** In the P3b window, both change-point "
-    "predictive surprise (\u0394AIC = \u22123.7, p = 0.017) and Bayesian surprise "
-    "(\u0394AIC = \u22122.0, p = 0.044) significantly predicted P3b amplitude. No model "
-    "predicted amplitude in the fronto-central window for the P3 paradigm."
+    "**P3 paradigm (internal replication).** In the P3b window, change-point "
+    "surprise (uncorrected p = 0.017, p_corrected = 0.069) and "
+    "Bayesian surprise (uncorrected p = 0.044, p_corrected = 0.131) showed "
+    "trends but did not survive Holm\u2013Bonferroni correction (Table 2B). The "
+    "fronto-central (MMN) window was also tested in the P3 paradigm but yielded "
+    "no significant results for any model (all p > 0.40; not tabulated)."
+)
+add_body(
+    "**Cross-validated prediction.** Leave-one-subject-out cross-validation "
+    "showed no significant improvement in out-of-sample prediction for any "
+    "surprise model over the baseline (all p > 0.64), confirming the minimal "
+    "explanatory benefit."
 )
 add_body(
     "**Time-resolved analysis.** All four surprise models showed significant "
@@ -411,23 +638,25 @@ add_body(
     "cluster (344\u2013383 ms, Figure 3)."
 )
 add_body(
-    "**Summary for H1:** H1 is partially supported. Bayesian surprise, which "
-    "measures belief revision, is the best and most consistently significant "
-    "predictor of single-trial prediction-error responses across both paradigms. "
-    "However, the advantage over other models is modest in magnitude, and the "
-    "high collinearity among Shannon-based models limits the specificity of "
+    "**Summary for H1:** H1 is partially supported. Bayesian surprise shows "
+    "the strongest trend toward predicting single-trial prediction-error "
+    "responses across both paradigms, but no model survives correction for "
+    "multiple comparisons. Effect sizes are very small, and the high "
+    "collinearity among Shannon-based models limits the specificity of "
     "model comparisons."
 )
 
 # ── Figure 3 ──
 add_figure(
     "fig3_encoding_MMN.png",
-    "Figure 3. Surprise encoding results. "
+    "Figure 3. Surprise encoding results (MMN paradigm). "
     "(A) Time-resolved regression coefficients at fronto-central sites for each "
     "surprise model (colored lines, \u00b195% CI shading). Gray bar marks the MMN "
     "window. (B) \u0394AIC relative to stimulus-class baseline in the MMN window; "
-    "negative = better fit. Asterisks mark significant likelihood ratio tests. "
-    "(C) \u0394AIC in the P3b window. (D) Pseudo-R\u00b2 improvement over baseline."
+    "negative = better fit. Asterisks mark uncorrected likelihood ratio tests "
+    "(p < 0.05); neither survives Holm\u2013Bonferroni correction. "
+    "(C) \u0394AIC in the P3b window (no model significant). "
+    "(D) Pseudo-R\u00b2 improvement over baseline."
 )
 
 add_heading("3.4 Decoding Results (H2)", level=2)
@@ -447,6 +676,27 @@ add_body(
     "identity within each subject. This result is reported for transparency but "
     "is not scientifically informative."
 )
+# ── Table 3: Decoding results ──
+add_table(
+    headers=["Feature Set", "Evaluation", "Paradigm", "ROC-AUC", "PR-AUC",
+             "Balanced Acc."],
+    rows=[
+        ["ERP-only", "Cross-subject", "MMN", "0.543", "0.226", "0.531"],
+        ["ERP+surprise (resid.)", "Cross-subject", "MMN", "0.450", "0.186",
+         "0.474"],
+        ["ERP-only", "Cross-subject", "P3", "0.604", "\u2014", "\u2014"],
+        ["ERP+surprise (resid.)", "Cross-subject", "P3", "0.571", "\u2014",
+         "\u2014"],
+        ["ERP-only", "Within-subject", "MMN", "0.534 \u00b1 0.041", "\u2014",
+         "\u2014"],
+        ["ERP+surprise (resid.)", "Within-subject", "MMN",
+         "1.000 \u00b1 0.000*", "\u2014", "\u2014"],
+    ],
+    caption="Table 3. Decoding results. "
+    "*Within-subject AUC = 1.0 reflects label leakage from deterministic "
+    "surprise regressors (see Section 4.3)."
+)
+
 add_body(
     "**Summary for H2:** H2 is not supported. Contextual surprise features "
     "(orthogonalized to stimulus type) do not improve cross-subject decoding "
@@ -472,8 +722,8 @@ add_body(
 )
 add_body(
     "**Change-point hazard rate.** Sensitivity analysis over "
-    "h \u2208 {1/50, 1/100, 1/200, 1/500} showed that the change-point predictive "
-    "surprise regressor was highly correlated with static Shannon across all "
+    "h \u2208 {1/50, 1/100, 1/200, 1/500} showed that the change-point surprise "
+    "regressor was highly correlated with static Shannon across all "
     "hazard rates (r > 0.97), consistent with the stationary nature of the "
     "oddball paradigm. The hazard rate had minimal impact on the encoding results."
 )
@@ -485,12 +735,16 @@ add_heading("4.1 Key Findings", level=2)
 add_body(
     "This study provides the first systematic, single-trial comparison of four "
     "hierarchical surprise formulations applied to prediction-error responses in "
-    "human EEG. Our primary finding is that Bayesian surprise \u2014 quantifying the "
-    "magnitude of belief revision \u2014 is the most consistent and statistically "
-    "significant predictor of trial-by-trial MMN amplitude, outperforming static "
-    "frequency-based surprise and providing a significant improvement over the "
-    "stimulus-class-only baseline. This finding was replicated in the P3 paradigm, "
-    "where both Bayesian and change-point surprise predicted P3b amplitude."
+    "human EEG. Bayesian surprise \u2014 quantifying the magnitude of belief "
+    "revision \u2014 showed the strongest trend toward predicting trial-by-trial MMN "
+    "amplitude, but this did not survive correction for multiple comparisons. "
+    "A similar pattern emerged in the P3 paradigm, where both Bayesian and "
+    "change-point surprise showed trends for P3b amplitude. No model "
+    "significantly improved out-of-sample prediction or cross-subject decoding. "
+    "These results suggest that while computational models of surprise capture "
+    "meaningful aspects of neural prediction error, the effect sizes in "
+    "stationary oddball paradigms are too small to reliably distinguish between "
+    "formulations."
 )
 
 add_heading("4.2 Relation to Prior Work", level=2)
@@ -542,13 +796,13 @@ add_body(
     "within-subject results transparently to alert future researchers."
 )
 add_body(
-    "**Effect sizes.** While statistically significant, the effect sizes for "
-    "Bayesian surprise predicting MMN amplitude are small (\u0394AIC = \u22123.9 on a "
-    "dataset of 35,476 observations). This is consistent with the well-known "
-    "difficulty of single-trial EEG analysis and the high noise inherent in "
-    "event-related potentials. The small effects do not undermine the conclusion "
-    "\u2014 they indicate that surprise modulates a small but reliable portion of "
-    "trial-to-trial ERP variability."
+    "**Effect sizes.** The effect sizes for Bayesian surprise predicting MMN "
+    "amplitude are very small (partial R\u00b2 < 0.02%, \u0394AIC = \u22123.9 on a dataset "
+    "of 35,332 observations). Cross-validated prediction showed no improvement "
+    "over the baseline model, suggesting that the encoding-model improvements "
+    "may reflect overfitting to in-sample noise rather than genuine predictive "
+    "power. This is consistent with the well-known difficulty of single-trial "
+    "EEG analysis."
 )
 
 add_heading("4.4 Limitations", level=2)
@@ -558,7 +812,7 @@ add_body(
     "(particularly the change-point model). Second, our EEG preprocessing used "
     "amplitude-based rejection rather than the planned autoreject algorithm, due "
     "to missing electrode position information in the ERP CORE files; this may "
-    "have retained some artifacts. Third, with N = 39 subjects, our power to "
+    "have retained some artifacts. Third, with N = 38 (MMN) and N = 36 (P3) subjects, our power to "
     "detect small differences between surprise models in pairwise comparisons is "
     "limited. Fourth, we examined only two ERP paradigms; generalization to more "
     "complex or naturalistic contexts remains to be established."
@@ -580,26 +834,50 @@ add_body(
 # ── 5  Conclusion ───────────────────────────────────────────
 add_heading("5. Conclusion", level=1)
 add_body(
-    "We present a reproducible benchmark comparing four stochastic surprise "
-    "formulations as predictors of single-trial EEG prediction-error responses. "
-    "Bayesian surprise \u2014 measuring the magnitude of belief revision \u2014 emerges as "
-    "the most consistent predictor of both MMN and P3b amplitudes, supporting "
-    "predictive coding accounts of neural prediction error. However, the high "
-    "collinearity among models in stationary oddball paradigms limits the "
-    "specificity of model comparisons, and contextual surprise does not improve "
-    "cross-subject stimulus classification. These results establish a baseline for "
-    "future work with non-stationary paradigms and provide a fully open analysis "
-    "pipeline for the computational EEG community."
+    "This paper reports a benchmark comparing four surprise formulations as "
+    "predictors of single-trial EEG responses. Bayesian surprise shows the "
+    "strongest trend, but no model survives correction for multiple comparisons. "
+    "High regressor collinearity and trivial label leakage are identified as "
+    "critical methodological challenges. These results set a baseline and point "
+    "to non-stationary paradigms as the necessary next step."
 )
 
 # ── Data and Code Availability ──────────────────────────────
 add_heading("Data and Code Availability", level=1)
 add_body_no_indent(
-    "All data used in this study are from the publicly available ERP CORE dataset "
-    "(Kappenman et al., 2021; https://erpinfo.org/erp-core). The complete analysis "
-    "pipeline, including preprocessing, surprise model estimation, encoding and "
-    "decoding analyses, and figure generation code, is available at our GitHub "
-    "repository. The conda environment specification ensures full reproducibility."
+    "Data come from the ERP CORE dataset (Kappenman et al., 2021; "
+    "https://erpinfo.org/erp-core; CC BY-SA 4.0). Code is available at "
+    "https://github.com/brhanufen/surprise-eeg-benchmark. The conda environment "
+    "specification ensures full reproducibility."
+)
+
+# ── Ethics Statement ──────────────────────────────────────
+add_heading("Ethics Statement", level=1)
+add_body_no_indent(
+    "This study used publicly available, de-identified data from the ERP CORE "
+    "dataset. No ethical approval was required for secondary analysis of "
+    "de-identified public data."
+)
+
+# ── Conflict of Interest ─────────────────────────────────
+add_heading("Conflict of Interest Statement", level=1)
+add_body_no_indent("The authors declare no conflicts of interest.")
+
+# ── Funding ──────────────────────────────────────────────
+add_heading("Funding", level=1)
+add_body_no_indent(
+    "This research received no specific grant from any funding agency in the "
+    "public, commercial, or not-for-profit sectors."
+)
+
+# ── Author Contributions ─────────────────────────────────
+add_heading("Author Contributions (CRediT)", level=1)
+add_body_no_indent(
+    "B.F.Z. conceived and designed the study, performed all data processing and "
+    "statistical analyses, developed the computational pipeline, and wrote the "
+    "original draft of the manuscript. Z.A. contributed to the study design and "
+    "methodology. P.D. contributed to manuscript writing and editing. All authors "
+    "read and approved the final manuscript."
 )
 
 # ── References ──────────────────────────────────────────────
@@ -611,7 +889,7 @@ refs = [
     "Gramfort, A., et al. (2013). MEG and EEG data analysis with MNE-Python. Frontiers in Neuroscience, 7, 267.",
     "Itti, L., & Baldi, P. (2009). Bayesian surprise attracts human attention. Vision Research, 49(10), 1295\u20131306.",
     "Jas, M., et al. (2017). Autoreject: Automated artifact rejection for MEG and EEG data. NeuroImage, 159, 417\u2013429.",
-    "Kappenman, E. S., Farrens, J. L., Luck, S. J., & Proudfit, G. H. (2021). ERP CORE: An open resource for human event-related potential research. NeuroImage, 225, 117465.",
+    "Kappenman, E. S., Farrens, J. L., Zhang, W., Stewart, A. X., & Luck, S. J. (2021). ERP CORE: An open resource for human event-related potential research. NeuroImage, 225, 117465.",
     "Kolossa, A., Fingscheidt, T., Wessel, K., & Kopp, B. (2015). A model-based approach to trial-by-trial P300 amplitude fluctuations. Frontiers in Human Neuroscience, 6, 359.",
     "Maris, E., & Oostenveld, R. (2007). Nonparametric statistical testing of EEG- and MEG-data. Journal of Neuroscience Methods, 164(1), 177\u2013190.",
     "Mars, R. B., et al. (2008). Trial-by-trial fluctuations in the event-related electroencephalogram reflect dynamic changes in the degree of surprise. Journal of Neuroscience, 28(47), 12539\u201312545.",
@@ -629,6 +907,117 @@ for ref in refs:
     p.paragraph_format.first_line_indent = Cm(-1.27)
     p.paragraph_format.left_indent = Cm(1.27)
     p.paragraph_format.space_after = Pt(4)
+
+# ── Supplementary Material ────────────────────────────────
+add_heading("Supplementary Material: Simulation Analysis", level=1)
+add_heading("Model Distinguishability in Non-Stationary Paradigms", level=2)
+
+add_body(
+    "The stationary oddball paradigm used in our main analyses produces highly "
+    "correlated surprise regressors (VIF > 70 for Shannon and change-point models), "
+    "preventing meaningful model comparison. To assess whether these models can be "
+    "distinguished with appropriate experimental designs, we conducted a simulation "
+    "study using a roving oddball paradigm with known change points."
+)
+
+add_heading("Methods", level=3)
+add_body(
+    "**Stimulus sequences.** We generated non-stationary oddball sequences (800 "
+    "trials, 10 blocks of 80 trials) where the deviant probability alternated "
+    "between low (p = 0.10\u20130.15) and high (p = 0.35\u20130.50) blocks, creating "
+    "9 change points. For comparison, we also generated stationary sequences "
+    "with fixed p = 0.20."
+)
+add_body(
+    "**Regressor dissociability.** All four surprise models were computed on each "
+    "sequence type, and we compared correlation matrices and VIF values."
+)
+add_body(
+    "**Model recovery.** For each of the four surprise models as ground truth, we "
+    "simulated single-trial EEG data: amplitude = \u03b2\u2080 + \u03b2\u2081\u00b7stimulus + "
+    "\u03b2\u2082\u00b7surprise_true + noise (effect size \u03b2\u2082 = 0.05\u20130.50, noise \u03c3 = 1.0). "
+    "All four models were then fit to the simulated data, and the model with the "
+    "lowest AIC was selected as the recovered model. We ran 500 simulations per "
+    "ground-truth model at \u03b2 = 0.20 and swept across 6 effect sizes with 200 "
+    "simulations each."
+)
+
+add_heading("Results", level=3)
+add_body(
+    "**Regressor dissociability.** In the roving paradigm, mean VIF decreased from "
+    "11.7 (stationary) to 6.5 (roving), a 44% reduction. Static Shannon VIF "
+    "dropped from 10.9 to 2.4 (78% reduction). However, adaptive Shannon and "
+    "change-point remained moderately collinear (VIF \u2248 10\u201312) even in the roving "
+    "design."
+)
+add_body(
+    "**Model recovery.** At effect size \u03b2 = 0.20, overall recovery rate was "
+    "65.2%. Critically, recovery rates differed dramatically across models:"
+)
+add_bullet(
+    "**Bayesian surprise: 100% recovery.** The KL divergence signal is distinct "
+    "from frequency-based models, producing spikes at transitions that no other "
+    "model replicates."
+)
+add_bullet(
+    "**Adaptive Shannon: 82% recovery.** The sliding window produces a delayed "
+    "tracking signal that is distinguishable from Bayesian and static models."
+)
+add_bullet(
+    "**Change-point: 79% recovery.** The predictive surprise signal is similar "
+    "to adaptive Shannon in roving paradigms (r = 0.95), creating some confusion "
+    "between these models."
+)
+add_bullet(
+    "**Static Shannon: 0% recovery.** Because static Shannon uses global "
+    "frequencies and does not adapt, its signal is indistinguishable from the "
+    "other frequency-based models. It was consistently confused with Bayesian "
+    "(45%) and change-point (28%) surprise."
+)
+add_body(
+    "**Effect size sweep.** Bayesian surprise reached \u226594% recovery at "
+    "\u03b2 = 0.10 and 100% at \u03b2 \u2265 0.15. Adaptive Shannon and change-point "
+    "required \u03b2 \u2265 0.20 for >80% recovery. Static Shannon never exceeded "
+    "chance regardless of effect size, indicating a fundamental identifiability "
+    "problem."
+)
+
+# ── Figure 5 ──
+add_figure(
+    "fig5_simulation.png",
+    "Figure 5. Simulation results for non-stationary (roving) oddball paradigms. "
+    "(A) Surprise traces in a stationary paradigm, all models highly correlated. "
+    "(B) Surprise traces in a roving paradigm, models diverge at change points "
+    "(dashed lines). Dotted line shows true deviant probability. "
+    "(C) VIF comparison: roving paradigms substantially reduce multicollinearity. "
+    "(D) Model recovery confusion matrix (\u03b2 = 0.20, 500 simulations). Bayesian "
+    "surprise is perfectly recoverable; static Shannon is never recovered. "
+    "(E) Recovery rate as a function of effect size. "
+    "(F) Design recommendations for future studies."
+)
+
+add_heading("Implications", level=3)
+add_body(
+    "The inability to distinguish surprise models in our main analyses is a "
+    "property of the stationary oddball paradigm, not an inherent limitation of "
+    "the computational framework. Three concrete recommendations emerge:"
+)
+add_body(
+    "First, roving or volatile paradigms are essential for testing competing "
+    "surprise theories. Fixed-probability oddballs render most model comparisons "
+    "uninformative due to multicollinearity."
+)
+add_body(
+    "Second, Bayesian surprise is the most identifiable model and should be "
+    "prioritized in future benchmark studies. Its unique sensitivity to belief "
+    "revision produces signals that no frequency-based model can mimic."
+)
+add_body(
+    "Third, static Shannon surprise should not be included as a competing model "
+    "in formal comparisons, as it is fundamentally unidentifiable \u2014 it cannot "
+    "be recovered even under ideal conditions. Its role should be limited to "
+    "serving as a naive baseline."
+)
 
 # ── Save ────────────────────────────────────────────────────
 doc.save(str(OUT))

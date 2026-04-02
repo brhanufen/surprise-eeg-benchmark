@@ -28,3 +28,8 @@ Thumbs.db
 *.tmp
 build_v4.py
 ~*
+
+# Generated manuscript outputs (rebuild via build_manuscript_docx.py)
+manuscript/*.pdf
+manuscript/cover_letter.docx
+manuscript/impact_statement.docx

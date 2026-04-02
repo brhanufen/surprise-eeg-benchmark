@@ -1,28 +1,18 @@
 [Date]
 
-Editor-in-Chief
-Psychophysiology
+To the bioRxiv Editors,
 
-Dear Editor,
+We submit our manuscript entitled "Stochastic Surprise Signatures in Human EEG: A Reproducible Benchmark of Prediction-Error Models Using the ERP CORE Oddball Dataset" as a preprint on bioRxiv.
 
-We are pleased to submit our manuscript entitled "Stochastic Surprise Signatures in Human EEG: A Reproducible Benchmark of Prediction-Error Models Using the ERP CORE Oddball Dataset" for consideration as a Research Article in Psychophysiology.
-
-This manuscript presents the first systematic, single-trial comparison of four hierarchical surprise formulations — static Shannon, adaptive Shannon, Bayesian, and change-point surprise — as predictors of EEG prediction-error responses. Using the publicly available ERP CORE dataset (N = 39), we demonstrate that Bayesian surprise is the most consistent predictor of MMN amplitude, a finding replicated in the P3 paradigm. We also identify critical methodological issues, including severe multicollinearity among surprise models in stationary paradigms and a label-leakage confound in within-subject decoding, that have implications for the broader computational ERP community.
-
-We believe this work is well-suited for Psychophysiology because:
-1. It directly addresses how trial-by-trial ERP responses relate to computational models of prediction — a core topic for your readership
-2. It provides a fully reproducible benchmark using a dataset familiar to ERP researchers
-3. It identifies practical methodological pitfalls (multicollinearity, label leakage) that will benefit researchers applying computational models to ERP data
+This manuscript presents the first systematic, single-trial comparison of four hierarchical surprise formulations — static Shannon, adaptive Shannon, Bayesian, and change-point surprise — as predictors of EEG prediction-error responses. Using the publicly available ERP CORE dataset (N = 40; N = 38 analyzed for MMN, N = 36 for P3 after exclusions), we find that Bayesian surprise shows the strongest trend toward predicting MMN amplitude (uncorrected p = 0.015), though this does not survive Holm–Bonferroni correction (p_corrected = 0.062). We also identify critical methodological issues, including severe multicollinearity among surprise models in stationary paradigms and a label-leakage confound in within-subject decoding, that have implications for the broader computational ERP community.
 
 The manuscript has not been published or submitted elsewhere. All authors have approved the submission. We have no conflicts of interest to declare.
 
-All data and analysis code are publicly available to ensure full reproducibility.
-
-Thank you for your consideration.
+All data and analysis code are publicly available at https://github.com/brhanufen/surprise-eeg-benchmark.
 
 Sincerely,
 
-[Corresponding Author Name]
-[Department/Affiliation]
+Brhanu F. Znabu
+Biomedical Engineering Program, College of Engineering
 University of Nebraska-Lincoln
-[Email]
+25674436@nebraska.edu

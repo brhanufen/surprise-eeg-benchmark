@@ -139,7 +139,7 @@ if __name__ == "__main__":
 
     t2 = table2_encoding("MMN")
     if t2:
-        print(format_table(t2, "Table 2. Encoding Model Comparison (MMN Paradigm)"))
+        print(format_table(t2, "Table 2. Encoding Model Comparison"))
     print()
 
     t3 = table3_decoding("MMN")
@@ -151,7 +151,7 @@ if __name__ == "__main__":
         f.write(format_table(table1_preprocessing(), "Table 1. Preprocessing Parameters"))
         f.write("\n\n")
         if t2:
-            f.write(format_table(t2, "Table 2. Encoding Model Comparison (MMN Paradigm)"))
+            f.write(format_table(t2, "Table 2. Encoding Model Comparison"))
         f.write("\n\n")
         if t3:
             f.write(format_table(t3, "Table 3. Decoding Results (MMN Paradigm)"))

@@ -14,7 +14,7 @@ MMN ROI channels            | Fz, FCz, Cz, FC3, FC4
 P3b ROI channels            | Pz, CPz, P3, P4, CP1, CP2                      
 
 
-Table 2. Encoding Model Comparison (MMN Paradigm)
+Table 2. Encoding Model Comparison
 ===================================================================
 Model | Window | ΔAIC | ΔBIC | LRT p | p (corrected) | β | β 95% CI
 ------+--------+------+------+-------+---------------+---+---------
